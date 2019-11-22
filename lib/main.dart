@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -7,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ALLDET',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -18,9 +23,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'ALLDET'),
     );
   }
 }
@@ -55,6 +60,20 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+
+  _makeGetRequest() async {
+    // make GET request
+    String url = 'https://jsonplaceholder.typicode.com/posts/1';
+    Response response = await get(url);
+    // sample info available in response
+    int statusCode = response.statusCode;
+    Map<String, String> headers = response.headers;
+    String contentType = headers['content-type'];
+    String json = response.body;
+    print("JSON: $json");
+    print("Status code: $statusCode");
+    print("contentType: $contentType");
   }
 
   @override
@@ -102,8 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _makeGetRequest(),
+        tooltip: 'Get New Data',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
